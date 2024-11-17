@@ -17,8 +17,12 @@ export const createServer = (HonoConstructor: typeof Hono, driver: DatabaseDrive
         const trigger = plugin.triggers[triggerName]!;
         if (trigger.manifest.rememberTrigger) {
             for (const {plugin: _1, trigger: _2, ...args} of getSavedTriggers(plugin.manifest.uid, triggerName)) {
-                // deno-lint-ignore no-explicit-any
-                trigger.watchBlock(args as any);
+                try {
+                    // deno-lint-ignore no-explicit-any
+                    trigger.watchBlock(args as any);
+                } catch (err) {
+                    console.error(`rememberedTrigger ${triggerName} failed with error`, err);
+                }
             }
         }
     }

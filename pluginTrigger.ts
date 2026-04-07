@@ -79,6 +79,7 @@ export interface PluginTrigger<
         args: {
             request: Request;
             blockConfig: BlockConfig;
+            abortSignal?: AbortSignal;
         } & PluginConfigIfNeeded,
     ) =>
         | SignedTriggerReturns

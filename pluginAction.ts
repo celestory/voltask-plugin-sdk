@@ -70,6 +70,7 @@ export interface PluginAction<
         args: {
             params: SignedActionParams;
             blockConfig: BlockConfig;
+            abortSignal?: AbortSignal;
         } & PluginConfigIfNeeded,
     ) =>
         | SignedActionReturns

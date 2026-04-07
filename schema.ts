@@ -82,6 +82,12 @@ export type JSONSchemaOAuth = {
     backgroundColor?: string;
 } & JSONSchemaShared<string>;
 
+export type JSONSchemaCode = {
+    type: 'string';
+    format: 'code';
+    language?: string;
+} & JSONSchemaShared<string>;
+
 export type JSONSchema =
     | JSONSchemaAny
     | JSONSchemaNull
@@ -91,7 +97,8 @@ export type JSONSchema =
     | JSONSchemaArray
     | JSONSchemaObject
     | JSONSchemaFile
-    | JSONSchemaOAuth;
+    | JSONSchemaOAuth
+    | JSONSchemaCode;
 
 type PT = {__phantomType: never};
 type NoPT<T> = T extends PT ? never : T;

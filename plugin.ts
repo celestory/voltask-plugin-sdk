@@ -15,7 +15,10 @@ export interface Plugin<Config, RenderProps = unknown> {
         iconUrl: string;
         description: string;
     };
-    translations: Record<string, object>;
+    translations: {
+        fr: Record<string, unknown>;
+        [lang: string]: Record<string, unknown>;
+    };
     //
     deriveConfig: (
         //

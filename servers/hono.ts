@@ -74,6 +74,24 @@ export const createServer = (HonoConstructor: typeof Hono, driver: DatabaseDrive
         });
     });
 
+    // "Test the connection" (editor): 404 when the plugin has no test, so that the editor can say so.
+    app.post(`/testConfig`, async ctx => {
+        if (!plugin.testConfig) {
+            return ctx.json({available: false}, 404);
+        }
+        const {config} = await ctx.req.json();
+        try {
+            const result = await Promise.race([
+                Promise.resolve(plugin.testConfig(config)),
+                new Promise<never>((_, reject) => setTimeout(() => reject(new Error('the service did not answer within 15 seconds')), 15_000)),
+            ]);
+            return ctx.json({available: true, ok: result.ok === true, message: String(result.message ?? '')});
+        } catch (err) {
+            const message = err instanceof Error ? err.message : String(err);
+            return ctx.json({available: true, ok: false, message: message.split('\n')[0]!.slice(0, 300)});
+        }
+    });
+
     app.delete(`/cleanup`, async ctx => {
         const {config} = await ctx.req.json();
         if (plugin.cleanupConfig) {

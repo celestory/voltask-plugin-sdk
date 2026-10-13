@@ -41,6 +41,8 @@ export interface PluginAction<
         color: string;
         iconUrl: string;
         description: string;
+        // Optional page (http or https) that explains the plugin or the block; the editor links to it.
+        docsUrl?: string;
         hasLifecycle: boolean;
         needsPluginConfig: NeedPluginConfig;
     };
